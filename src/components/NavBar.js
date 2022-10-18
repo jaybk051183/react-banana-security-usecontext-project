@@ -1,9 +1,12 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import logo from '../assets/banana-01.png';
 import { useHistory, Link } from 'react-router-dom';
+import {AuthContext} from "../context/AuthContext";
 
 function NavBar() {
   const history = useHistory();
+  const { isAuth, logout } = useContext(AuthContext);
+  console.log(AuthContext)
 
   return (
     <nav>
@@ -16,22 +19,28 @@ function NavBar() {
           </span>
         </Link>
 
-      <div>
-        <button
+      {isAuth ?
+          <button
           type="button"
-          onClick={() => history.push('/signin')}
-        >
-          Log in
-        </button>
-        <button
-          type="button"
-          onClick={() => history.push('/signup')}
-        >
-          Registreren
-        </button>
-      </div>
+          onClick={logout}
+          >Log uit</button> :
+          <div>
+            <button
+                type="button"
+                onClick={() => history.push('/signin')}
+            >
+              Log in
+            </button>
+            <button
+                type="button"
+                onClick={() => history.push('/signup')}
+            >
+              Registreren
+            </button>
+          </div>
+      }
     </nav>
   );
 }
-
 export default NavBar;
+
